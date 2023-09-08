@@ -64,10 +64,27 @@ public class BookController {
     public String getMyList (@PathVariable("id") int id){
         Book b = bookService.getBookById(id);
         MyBookList mb = new MyBookList(b.getId(),b.getName(),b.getAuthor(),b.getPrice());
-         myBookService.saveMyBooks(mb);
-         return "redirect:/my_books";
+        myBookService.saveMyBooks(mb);
+        return "redirect:/my_books";
+    }
 
-        return null;
+
+
+
+
+    @RequestMapping("/deleteBook/{id}")
+    public String deleteBook(@PathVariable("id") int id){
+        bookService.deleteById(id);
+        return "redirect:/available_books";
+
+    }
+    
+    @RequestMapping ("/editBook/{id}")
+    public String editBook(@PathVariable ("id")int id, Model model){
+        Book b = bookService.getBookById(id);
+        model.addAttribute("book", b);
+        return "bookEdit";
+
     }
 
 
